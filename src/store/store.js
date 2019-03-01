@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import { adminuser } from './adminuser'
 import user from './models/user'
 import login from './models/login'
 
@@ -23,9 +24,10 @@ export const store = new Vuex.Store({
     auth_request (state) {
       state.status = 'loading'
     },
-    auth_success (state, token) {
+    auth_success (state, data) {
       state.status = 'success'
-      state.token = token
+      state.token = data.token
+      state.userid = data.userid
     },
     auth_error (state) {
       state.status = 'error'
@@ -47,13 +49,18 @@ export const store = new Vuex.Store({
           .then(resp => {
             const token = resp.data.token
             const userid = resp.data.userid
+            const role = resp.data.role
+            const err = ''
+            if (role !== 'Admin') {
+              reject(err)
+            }
             localStorage.setItem('token', token)
             localStorage.setItem('userid', userid)
-            commit('auth_success', token)
+            commit('auth_success', { 'token': token, 'userid': userid })
             resolve(resp)
           })
           .catch(err => {
-            commit('auth_error')
+            commit('auth_error', err)
             localStorage.removeItem('token')
             localStorage.removeItem('userid')
             reject(err)
@@ -65,11 +72,13 @@ export const store = new Vuex.Store({
         commit('logout')
         localStorage.removeItem('token')
         localStorage.removeItem('userid')
+        delete axios.defaults.headers.common['Authorization']
         resolve()
       })
     }
   },
   modules: {
+    adminuser,
     user,
     login
   }

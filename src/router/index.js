@@ -9,13 +9,10 @@ import EdituserDetails from '@/components/user/EdituserDetails'
 import ChangeUserPassword from '@/components/user/ChangeUserPassword'
 import adminLogin from '@/components/adminLogin'
 import adminDashboard from '@/components/adminDashboard'
-import addStudent from '@/components/addStudent'
+import addUser from '@/components/addUser'
 import studentList from '@/components/studentList'
-import addTeacher from '@/components/addTeacher'
-import teacherList from '@/components/teacherList'
-import addParent from '@/components/addParent'
 import parentList from '@/components/parentList'
-import addClass from '@/components/addClass'
+import teacherList from '@/components/teacherList'
 import classList from '@/components/classList'
 import addSubject from '@/components/addSubject'
 import subjectList from '@/components/subjectList'
@@ -74,9 +71,9 @@ export default new Router({
       component: adminDashboard
     },
     {
-      path: '/addStudent',
-      name: 'addStudent',
-      component: addStudent
+      path: '/addUser',
+      name: 'addUser',
+      component: addUser
     },
     {
       path: '/studentList',
@@ -84,29 +81,14 @@ export default new Router({
       component: studentList
     },
     {
-      path: '/addTeacher',
-      name: 'addTeacher',
-      component: addTeacher
-    },
-    {
       path: '/teacherList',
       name: 'teacherList',
       component: teacherList
     },
     {
-      path: '/addParent',
-      name: 'addParent',
-      component: addParent
-    },
-    {
       path: '/parentList',
       name: 'parentList',
       component: parentList
-    },
-    {
-      path: '/addClass',
-      name: 'addClass',
-      component: addClass
     },
     {
       path: '/classList',

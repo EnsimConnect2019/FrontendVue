@@ -4,7 +4,6 @@
       <adminHeader></adminHeader>
       <v-content>
         <v-container
-          fluid
           grid-list-md text-xs-center
         >
           <v-flex xs12>
@@ -22,7 +21,7 @@
               <div>
                 <v-toolbar flat color="white">
                   <v-spacer></v-spacer>
-                  <v-flex xs3>
+                  <v-flex xs12 sm4>
                     <v-card-title>
                       <v-text-field
                         v-model="search"
@@ -195,5 +194,8 @@ export default {
   .txt2 {
     color: #fff;
     text-decoration: none;
+  }
+  .container.grid-list-md .layout .flex {
+    padding-left: 50px;
   }
 </style>

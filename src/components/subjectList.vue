@@ -4,7 +4,6 @@
       <adminHeader></adminHeader>
       <v-content>
         <v-container
-          fluid
           grid-list-md text-xs-center
         >
           <v-flex xs12>
@@ -37,11 +36,13 @@
             <v-flex xs11 pl-3>
               <div>
                 <v-toolbar flat color="white">
-                  <v-flex xs1>
-                    <v-btn color="primary" dark class="mb-2"><router-link to="/addSubject" flat class="txt2">Add New Subject</router-link></v-btn>
+                  <v-flex xs12 sm4>
+                    <v-card-title>
+                      <v-btn color="primary" dark class="mb-2"><router-link to="/addSubject" flat class="txt2">Add Subject</router-link></v-btn>
+                    </v-card-title>
                   </v-flex>
                   <v-spacer></v-spacer>
-                  <v-flex xs3>
+                  <v-flex xs12 sm4>
                     <v-card-title>
                       <v-text-field
                         v-model="search"

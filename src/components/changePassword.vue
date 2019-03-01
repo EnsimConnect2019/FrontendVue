@@ -4,10 +4,9 @@
       <adminHeader></adminHeader>
       <v-content>
         <v-container
-          fluid
           grid-list-md text-xs-center
         >
-          <v-flex xs11>
+          <v-flex xs12 sm11>
             <div class="font-weight-thin my-2 display-1 text-lg-left">
               Change Password
             </div>

@@ -9,8 +9,15 @@
   >
     <v-list dense>
       <template v-for="item in items">
+        <v-layout
+          row
+          v-if="item.heading"
+          align-center
+          :key="item.heading"
+        >
+        </v-layout>
         <v-list-group no-action sub-group
-                      v-if="item.children"
+                      v-else-if="item.children"
                       v-model="item.model"
                       :key="item.text"
                       :prepend-icon="item.model ? item.icon : item['icon-alt']"
@@ -29,7 +36,7 @@
               <v-icon>{{ child.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <router-link :to="child.href">
+              <router-link :click="child.evt" :to="child.href">
                 <v-list-tile-title>
                   {{ child.text }}
                 </v-list-tile-title>
@@ -65,36 +72,42 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
-      <v-menu offset-y
-              v-for="itemMenu in items"
-              v-bind:key="itemMenu.text"
-      >
-        <v-btn
-          slot="activator"
-          color="blue darken-3"
-          dark
-        >
-          <v-list-tile-title v-if ="itemMenu.children">
-            {{ itemMenu.text }}
-          </v-list-tile-title>
-          <router-link v-else :to="itemMenu.href"  class="txtwt">
-            {{ itemMenu.text }}
-          </router-link>
-        </v-btn>
-        <v-list v-if="itemMenu.children">
-          <v-list-tile
-            v-for="(childText, J) in itemMenu.children"
-                       :keyN="J"
-            v-bind:key="childText.text"
+      <!--<v-btn flat><router-link to="/adminDashboard" style="color: #fff;">Dashboard</router-link></v-btn>-->
+        <template v-for="itemT in items">
+          <v-menu offset-y no-action sub-group
+                        v-if="itemT.children"
+                        v-model="itemT.model"
+                        :key="itemT.text"
           >
-            <router-link :to="childText.href" >
-              <v-list-tile-title>
-                {{ childText.text }}
-              </v-list-tile-title>
-            </router-link>
+            <v-list-tile slot="activator">
+              <v-list-tile-content>
+                {{ itemT.text }}
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile
+              v-for="(child, j) in itemT.children"
+              :key="j"
+            >
+              <v-list-tile-content>
+                <router-link :click="child.evt" :to="child.href">
+                  <v-list-tile-title>
+                    {{ child.text }}
+                  </v-list-tile-title>
+                </router-link>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-menu>
+          <v-list-tile v-else :key="itemT.text">
+            <v-list-tile-content>
+              <router-link :to="itemT.href">
+                <v-list-tile-title>
+                  {{ itemT.text }}
+                </v-list-tile-title>
+              </router-link>
+            </v-list-tile-content>
           </v-list-tile>
-        </v-list>
-      </v-menu>
+        </template>
+      <!--end---->
     </v-toolbar-items>
   </v-toolbar>
   </div>
@@ -114,31 +127,11 @@ export default {
       {
         icon: 'keyboard_arrow_up',
         'icon-alt': 'keyboard_arrow_down',
-        text: 'Student',
+        text: 'User',
         model: false,
         children: [
-          { icon: 'edit', text: 'Add New Student', href: 'addUser' },
-          { icon: 'list', text: 'Student List', href: 'studentList' }
-        ]
-      },
-      {
-        icon: 'keyboard_arrow_up',
-        'icon-alt': 'keyboard_arrow_down',
-        text: 'Teacher',
-        model: false,
-        children: [
-          { icon: 'edit', text: 'Add New Teacher', href: 'addUser', param: 'teacher' },
-          { icon: 'list', text: 'Teacher List', href: 'teacherList' }
-        ]
-      },
-      {
-        icon: 'keyboard_arrow_up',
-        'icon-alt': 'keyboard_arrow_down',
-        text: 'Parent',
-        model: false,
-        children: [
-          { icon: 'edit', text: 'Add New Parent', href: 'addUser' },
-          { icon: 'list', text: 'Parent List', href: 'parentList' }
+          { icon: 'edit', text: 'Add New User', href: 'addUser' },
+          { icon: 'list', text: 'User List', href: 'userList' }
         ]
       },
       {
@@ -177,28 +170,13 @@ export default {
         model: false,
         children: [
           { icon: 'lock', text: 'Change Password', href: 'changePassword' },
-          { icon: 'close', text: 'Logout', href: '/admin' }
+          { icon: 'close', text: 'Logout', href: '', evt: 'logout' }
         ]
       }
     ]
   }),
   props: {
     source: String
-  },
-  computed: {
-    isLoggedIn: function () { return this.$store.getters.isLoggedIn },
-    authStatus: function () { return this.$store.getters.authStatus },
-    token: function () { return this.$store.getters.token },
-    userid: function () { return this.$store.getters.userid }
-  },
-  methods: {
-
-  },
-  created () {
-    const isLoggedIn = this.$store.getters.isLoggedIn
-    if (isLoggedIn === false) {
-      this.$router.push('/admin')
-    }
   }
 }
 </script>
@@ -211,10 +189,8 @@ export default {
     text-decoration: underline;
     color: #000;
   }
-  .txtwt {
-    color: #fff;
-  }
-  .router-link-active {
-    color: darkorange;
+  .v-menu__content {
+    background-color: #fff;
+    top:65px !important;
   }
 </style>
